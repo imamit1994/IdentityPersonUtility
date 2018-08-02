@@ -25,30 +25,27 @@ public class AssetService {
 	    @Autowired
 	    private FileUtility fileUtility;
 
-		public void getBackUpFromIdentifierValue(String identifierValue) {
+		public void getBackUpFromIdentifierValue(String identifierValue,String assetType) {
 			int counter=0;
-	    	logger.info("creating backup from Asset for IdentifierValue::"+identifierValue);
-			Query query = new Query(Criteria.where("identifier.value").is(identifierValue));
+	    	logger.info("creating backup from Asset for IdentifierValue::"+identifierValue+" and assetType: "+assetType);
+			Query query = new Query(Criteria.where("identifier.value").is(identifierValue).and("assetType").is(assetType).regex(assetType,"i"));
 	         List<Asset> assetIdentifier = mongoTemplate.find(query, Asset.class);
 	         counter=fileUtility.writeTOFileIfDataIsPresent(assetIdentifier, "asset.backup.file",counter);
 	         if(counter==1) {
-	           	 logger.info("IdentifierValue::"+identifierValue+" not found in db");
+	           	 logger.info("IdentifierValue::"+identifierValue+" not found in db for assetType::"+assetType);
 	            }
 	           if(counter==0)	 {
-	            logger.info("backup has been created from Asset for IdentifierValue::"+identifierValue);
+	            logger.info("backup has been created from Asset IdentifierValue::"+identifierValue+" for assetType::"+assetType);
 	           }
 		}
 
-		public void deleteFromAsset(String identifierValue) {
-			Query query = new Query(Criteria.where("identifier.value").is(identifierValue));
+		public void deleteFromAsset(String identifierValue,String assetType) {
+			Query query = new Query(Criteria.where("identifier.value").is(identifierValue).and("assetType").is(assetType).regex(assetType,"i"));
 			List<Asset> assetIdentifier = mongoTemplate.find(query, Asset.class);
 			 if(assetIdentifier.size()!=0) {
-				 logger.info("Deletion started from Asset for IdentifierValue::"+identifierValue);
+				 logger.info("Deletion started from Asset for IdentifierValue::"+identifierValue+" and assetType::"+assetType);
 				 mongoTemplate.remove(query, Asset.class);
-				 logger.info("Deletion completed from Asset for IdentifierValue"+identifierValue);
-			 }
-			 else {
-				 logger.info("No data found for IdentifierValue::"+identifierValue+" in Asset");
+				 logger.info("Deletion completed from Asset for IdentifierValue::"+identifierValue+" and assetType::"+assetType);
 			 }
 		}
 }

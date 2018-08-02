@@ -25,7 +25,7 @@ public class IdentityActivationDetailsService {
 	@Autowired
 	private FileUtility fileUtility;
 
-	public void getBackUPFromEmail(String email) {
+	public int getBackUPFromEmail(String email) {
 		int counter=0;
 		logger.info("creating backup from identityActivationDetail for Email::"+email);
 		Query query = new Query(Criteria.where("email").is(email));
@@ -37,18 +37,23 @@ public class IdentityActivationDetailsService {
        if(counter==0)	 {
         logger.info("backup has been created from identityActivationDetail for Email::"+email);
        }
+       return counter;
 	}
 
-	public void deleteFromActivationdetails(String email) {
+	public boolean deleteFromActivationdetails(String email) {
+		boolean deleted;
 		 Query query = new Query(Criteria.where("email").is(email));
 		 List<IdentityActivationDetails> identityActivationDetailsList = mongoTemplate.find(query, IdentityActivationDetails.class);
 		 if(identityActivationDetailsList.size()!=0) {
 			 logger.info("Deletion started from identityActivationDetails for Email::"+email);
 			 mongoTemplate.remove(query, IdentityActivationDetails.class);
 			 logger.info("Deletion completed from identityActivationDetails for Email"+email);
+			 deleted=true;
 		 }
 		 else {
 			 logger.info("No data found for Email::"+email+" in identityActivationDetails");
+			 deleted=false;
 		 }
+		 return deleted;
 	}
 }

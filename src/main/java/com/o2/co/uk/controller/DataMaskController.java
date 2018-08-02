@@ -43,13 +43,13 @@ public class DataMaskController {
         }
     }
     
-    public void executePersonDb() {
+    public void executePersonDb(String assetType) {
         try {
             File inputECMfile = fileUtility.getInputECMFile();
             BufferedReader reader = new BufferedReader(new FileReader(inputECMfile));            
             reader.lines().filter(inputECMLine -> inputECMLine.length() > 1).forEach(inputECMLine -> {
                 String inputUserId = inputECMLine;
-                updatePerson(inputUserId);
+                updatePerson(inputUserId,assetType);
             });
             
         } catch (FileNotFoundException ex) {
@@ -57,10 +57,10 @@ public class DataMaskController {
         }
     }
     
-    private void updatePerson(String inputUserName) {
-    	logger.info("Processing: UserName: "+ inputUserName);
-    	backUpService.takeBackUpBeforeDeletePersonDb(inputUserName);
-    	updateService.deleteByIdentifierValue(inputUserName);
+    private void updatePerson(String inputUserName,String assetType) {
+    	logger.info("Processing: UserName: "+ inputUserName+" for assetType: "+assetType);
+    	backUpService.takeBackUpBeforeDeletePersonDb(inputUserName,assetType);
+    	updateService.deleteByIdentifierValue(inputUserName,assetType);
 	}
 
 	private void updateIdentity(String inputUserName) {
