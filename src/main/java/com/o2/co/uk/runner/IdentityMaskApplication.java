@@ -16,7 +16,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 
 import java.util.Arrays;
-import java.util.Scanner;
 
 public class IdentityMaskApplication {
 
@@ -36,62 +35,7 @@ public class IdentityMaskApplication {
 		if (args.length > 0 && ArgumentValidator.isValidFilePath(args[0])) {
 			try {
 				IdentityMaskApplication identityMaskApplication = new IdentityMaskApplication(args[0]);
-				
-				Scanner sc=new Scanner(System.in);
-				String Choice;
-				do {
-				System.out.println("Please Enter your choice | 1 | 2 | 3 |");
-				System.out.println("1) Enter | 1 | to delete Data in identity Db for Collection identityV3 and identityActivationdetails");
-				System.out.println("2) Enter | 2 | to delete data in Person Db for Collection Asset");
-				System.out.println("3) Enter | 3 | to exit from utility");
-					Choice = sc.nextLine();
-					switch (Choice) {
-					case "1":
-						System.out.println("Data deletion Started in identity Db for Collection identityV3 and identityActivationdetails");
-						identityMaskApplication.executeIdentityDb();
-						System.out.println("Data deletion completed in identity Db for Collection identityV3 and identityActivationdetails");
-						break;
-					case "2":
-						System.out.println("Data deletion Started in person Db for Collection Asset");
-						do {
-							System.out.println("Please choose your assetType for deletion in person DB");
-							System.out.println("1) Enter | 1 | for SFDC assetType");
-							System.out.println("2) Enter | 2 | for ESUITE assetType");
-							System.out.println("3) Enter | 3 | for O2DRIVE assetType");
-							System.out.println("4) Enter | 4 | to exit from Asset Deletion and return back to utility");
-							Choice = sc.nextLine();
-							switch (Choice) {
-							case "1":
-								System.out.println("Processing for SFDC");
-								identityMaskApplication.excutePersonDb("SFDC");
-								break;
-							case "2":
-								System.out.println("Processing for ESUITE");
-								identityMaskApplication.excutePersonDb("ESUITE");
-								break;
-							case "3":
-								System.out.println("Processing for O2DRIVE");
-								identityMaskApplication.excutePersonDb("O2DRIVE");
-								break;
-							case "4":
-								System.out.println("Exiting from Asset deletion");
-								Choice="4";
-								break;
-							default:
-								System.out.println("Please enter Correct Choice");
-							}
-						} while (Choice != "4");
-						System.out.println("Data deletion completed in person Db for Collection Asset");
-						break;
-					case "3":
-						identityMaskApplication.closeApplicationContext();
-						System.out.println("Utility has been closed");
-						System.exit(0);
-						break;
-					default:
-						System.out.println("You have Entered Incorrect choice");
-					}
-				}while(Choice!="3");
+				identityMaskApplication.execute();
 			} catch (BeansException ex) {
 				System.out.println("Context Initialization Failed : CAUSE - " + Arrays.toString(ex.getStackTrace()));
 			} catch (Exception e) {
@@ -102,20 +46,13 @@ public class IdentityMaskApplication {
 		}
 	}
 
-	private void excutePersonDb(String assetType) {
+	public void execute()  {
 		DataMaskController dataMaskController = context.getBean("dataMaskController", DataMaskController.class);
-		logger.info("Execution Started for Asset collection in Person Db");
-		dataMaskController.executePersonDb(assetType);
+		logger.info("Execution Started for Identity to update identityV3 and identityActivationDetailCollection");
+		dataMaskController.execute();
+		((ConfigurableApplicationContext) context).close();
+
 	}
 
-	public void executeIdentityDb()  {
-		DataMaskController dataMaskController = context.getBean("dataMaskController", DataMaskController.class);
-		logger.info("Execution Started for Identity Db");
-		dataMaskController.executeIdentityDb();	
-	}
-	
-	public void closeApplicationContext() {
-		((ConfigurableApplicationContext) context).close();
-	}
 }
 	

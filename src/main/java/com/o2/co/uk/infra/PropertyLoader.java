@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Qualifier;
 public class PropertyLoader {
 
 	private String inputFilePath;
+	private String email_prefix;
+	private String email_suffix;
+	private String msisdn_prefix;
 	private String identityActivationDetailsbackupFilePath;
 	private String persistedIdentitybackupFilePath;
 	private String deletedIdentitybackupFilePath;
@@ -29,8 +32,32 @@ public class PropertyLoader {
 		this.inputFilePath = inputFilePath;
 	}
 
+	public void setEmail_prefix(String email_prefix) {
+		this.email_prefix = email_prefix;
+	}
+
+	public void setEmail_suffix(String email_suffix) {
+		this.email_suffix = email_suffix;
+	}
+
+	public void setMsisdn_prefix(String msisdn_prefix) {
+		this.msisdn_prefix = msisdn_prefix;
+	}
+
 	public String getInputFilePath() {
 		return inputFilePath;
+	}
+
+	public String getEmail_prefix() {
+		return email_prefix;
+	}
+
+	public String getEmail_suffix() {
+		return email_suffix;
+	}
+
+	public String getMsisdn_prefix() {
+		return msisdn_prefix;
 	}
 
 	public String getIdentityActivationDetailsbackupFilePath() {

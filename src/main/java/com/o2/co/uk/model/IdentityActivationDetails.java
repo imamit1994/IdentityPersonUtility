@@ -75,16 +75,6 @@ public class IdentityActivationDetails implements StringFormatterInterface {
 
 	@Override
 	public String getFieldsInStringFormat() {
-		return CustomStringUtil.getStringIfPresentElseEmpty(uid)+","+CustomStringUtil.getStringIfPresentElseEmpty(contactNumber)+","+
-				CustomStringUtil.getStringIfPresentElseEmpty(email)+","+CustomStringUtil.getStringIfPresentElseEmpty(securityAnswer);
+		return "Email:"+CustomStringUtil.getStringIfPresentElseEmpty(email)+","+"ContactNumber:"+CustomStringUtil.getStringIfPresentElseEmpty(contactNumber);
 	}
-
-	@Override
-	public String toString() {
-		return "IdentityActivationDetails [_id=" + _id + ", _class=" + _class + ", migrated=" + migrated
-				+ ", securityQuestion=" + securityQuestion + ", uid=" + uid + ", contactNumber=" + contactNumber
-				+ ", email=" + email + ", securityAnswer=" + securityAnswer + ", clientId=" + clientId + "]"+"\n";
-	}
-	
-	
 }

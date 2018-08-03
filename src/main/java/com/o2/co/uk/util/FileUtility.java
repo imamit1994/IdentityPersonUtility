@@ -3,6 +3,8 @@ package com.o2.co.uk.util;
 import com.o2.co.uk.infra.PropertiesManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
+
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,7 +13,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.List;
 
 @Component
 public class FileUtility {
@@ -43,27 +44,22 @@ public class FileUtility {
         }
     }
 
-	public <T> int writeTOFileIfDataIsPresent(List<T> list, String fileNameProperty,int counter) {
-		if(!(list.size()==0)) {
-			Path filePath = getFilePath(fileNameProperty);
-			if (!Files.exists(filePath)) {
+    public void writeToFileIfDataIsPresent(String data, String fileNameProperty) {
+        if (!StringUtils.isEmpty(data)) {
+            Path filePath = getFilePath(fileNameProperty);
+            if (!Files.exists(filePath)) {
                 try {
                     Files.createFile(filePath);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-			try {
-                Files.write(filePath, (list + "\n").getBytes(), StandardOpenOption.APPEND);
-                counter=0;
+            try {
+                Files.write(filePath, (data + "\n").getBytes(), StandardOpenOption.APPEND);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-		}
-		else {
-			counter=1;
-		}
-		return counter;
-	}
+        }
+    }
 
 }
