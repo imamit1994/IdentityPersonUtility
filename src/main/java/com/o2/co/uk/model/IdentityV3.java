@@ -91,7 +91,7 @@ public class IdentityV3 implements StringFormatterInterface {
 	}
 
 	public void setId(String id) {
-		this._id = _id;
+		this._id = id;
 	}
 
 	public String getUid() {
@@ -312,6 +312,26 @@ public class IdentityV3 implements StringFormatterInterface {
 
 	@Override
 	public String getFieldsInStringFormat() {
-		return "Username:"+CustomStringUtil.getStringIfPresentElseEmpty(username)+","+"MSISDN:"+CustomStringUtil.getStringIfPresentElseEmpty(msisdn);
+		return CustomStringUtil.getStringIfPresentElseEmpty(portalId)+","+CustomStringUtil.getStringIfPresentElseEmpty(username)+","+
+				CustomStringUtil.getStringIfPresentElseEmpty(alternateEmail)+","+CustomStringUtil.getStringIfPresentElseEmpty(msisdn)+","+
+				CustomStringUtil.getStringIfPresentElseEmpty(securityAnswer);
 	}
+
+	@Override
+	public String toString() {
+		return "IdentityV3 [_id=" + _id + ", _class=" + _class + ", uid=" + uid + ", username=" + username
+				+ ", password=" + password + ", securityQuestion=" + securityQuestion + ", securityAnswer="
+				+ securityAnswer + ", usernameVerified=" + usernameVerified + ", passwordResetByAgent="
+				+ passwordResetByAgent + ", displayName=" + displayName + ", loginPortalBfid=" + loginPortalBfid
+				+ ", loginPortalUsername=" + loginPortalUsername + ", createdBy=" + createdBy + ", modifiedBy="
+				+ modifiedBy + ", addedBy=" + addedBy + ", createdTimestampUtc=" + createdTimestampUtc
+				+ ", passwordModifiedTimestampUtc=" + passwordModifiedTimestampUtc + ", lastAccessedTimestampUtc="
+				+ lastAccessedTimestampUtc + ", lastModifiedTimestampUtc=" + lastModifiedTimestampUtc
+				+ ", lastLoginTimestampUtc=" + lastLoginTimestampUtc + ", lastName=" + lastName + ", dateOfBirth="
+				+ dateOfBirth + ", msisdn=" + msisdn + ", msisdnVerified=" + msisdnVerified + ", alternateEmail="
+				+ alternateEmail + ", portalAccountDetails=" + portalAccountDetails + ", portalId=" + portalId
+				+ ", forename=" + forename + ", title=" + title + "]"+"\n";
+	}
+	
+	
 }
